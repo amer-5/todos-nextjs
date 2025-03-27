@@ -15,7 +15,7 @@ export async function POST(req) {
 
   try {
     const newTodo = new Todo({ text, isCompleted: false });
-    user.todos[user.todos.length] = newTodo;
+    user.todos.push(newTodo);
     await user.save();
 
     return NextResponse.json(
