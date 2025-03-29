@@ -1,6 +1,6 @@
 import { connectDB } from "@/lib/db";
 import { authorizeUser } from "@/lib/auth";
-import User, { Todo } from "@/models/User";
+import Todo from "@/models/Todo";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -14,7 +14,7 @@ export async function POST(req) {
     return NextResponse.json({ error: "Text is required!" }, { status: 400 });
 
   try {
-    const newTodo = new Todo({ text, isCompleted: false });
+    const newTodo = JSON.stringify(new Todo({ text }));
     user.todos.push(newTodo);
     await user.save();
 
@@ -34,7 +34,7 @@ export async function GET(req) {
   if (!user) return;
 
   try {
-    const todos = await user.todos;
+    const todos = await user.todos.map((todo) => JSON.parse(todo));
 
     return NextResponse.json(todos);
   } catch (error) {
