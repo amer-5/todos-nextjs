@@ -19,7 +19,7 @@ export async function POST(req) {
     await user.save();
 
     return NextResponse.json(
-      { message: "Todo added", todo: newTodo },
+      { message: "Todo added", todo: JSON.parse(newTodo) },
       { status: 200 }
     );
   } catch (error) {
